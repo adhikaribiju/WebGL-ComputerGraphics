@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>WebGL Assignment 3</title>
+</head>
+
+<body onload="main()">
+  <canvas id="glcanvas" width="300" height="300" style="border: 1px solid #000;"></canvas>
+
+  <button id="Direction"> Change Rotation Direction</button>
+  <button id="reset"> Reset</button>
+
+  <select id="Controls" size="4">
+    <option value="0">Change Direction</option>
+    <option value="1">Incease Speed</option>
+    <option value="2">Decrease Speed</option>
+    <option value="3">Reset Speed</option>
+  </select>
+
+  <div></div>
+    Speed 0% <input id="Slider" type="range" min="0" max="100" value="50"/> 100%
+  </div>
+
+  
+
+  <script src="../lib/webgl-utils.js"></script>
+  <script src="../lib/webgl-debug.js"></script>
+  <script src="../lib/cuon-utils.js"></script>
+  <script type="text/javascript" src="box.js"></script>
+</body>
+
+</html>
