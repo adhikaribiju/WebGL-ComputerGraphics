@@ -49,15 +49,9 @@ function main() {
 }
 
 // Buffer code
+var VertexBuffer = gl.createBuffer();
 
-function myinitVertexBuffer(gl) {
-  var vertices = new Float32Array([-0.5, 0.5]);
-  var n = 1;
-
-  //pipeline
-  var VertexBuffer = gl.createBuffer();
-
-  if (!VertexBuffer) {
+if (!VertexBuffer) {
     console.log("Failed to create buffer");
     return -1;
   }
@@ -65,6 +59,15 @@ function myinitVertexBuffer(gl) {
   //bind buffer
   gl.bindBuffer(gl.ARRAY_BUFFER, VertexBuffer);
 
+
+
+function myinitVertexBuffer(gl) {
+  var vertices = new Float32Array([-0.5, 0.5]);
+  var n = 1;
+
+
+ 
+  
   //send data
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
