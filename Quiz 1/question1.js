@@ -40,15 +40,7 @@ function main() {
     return;
   }
 
-  var n = myinitVertexBuffer(gl);
-
-  gl.clearColor(1.0, 1.0, 1.0, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-
-  gl.drawArrays(gl.POINTS, 0, n);
-}
-
-// Buffer code
+  // Buffer code
 var VertexBuffer = gl.createBuffer();
 
 if (!VertexBuffer) {
@@ -58,26 +50,22 @@ if (!VertexBuffer) {
 
   //bind buffer
   gl.bindBuffer(gl.ARRAY_BUFFER, VertexBuffer);
-
-
-
-function myinitVertexBuffer(gl) {
-  var vertices = new Float32Array([-0.5, 0.5]);
-  var n = 1;
-
-
- 
-  
   //send data
-  gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
-  //attribute - pipeline
-  x = gl.getAttribLocation(gl.program, "a_position");
+  //vertex shader config
+  var vPosition = gl.getAttribLocation(gl.program, "a_position");
 
   //vertex attrib pointer
-  gl.vertexAttribPointer(x, 2, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
 
-  gl.enableVertexAttribArray(x);
+  gl.enableVertexAttribArray(vPosition);
 
-  return n;
+  gl.clearColor(1.0, 1.0, 1.0, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
+  gl.drawArrays(gl.LINE_LOOP, 0, 4);
+  gl.drawArrays(gl.LINE_LOOP, 4, 3);
 }
+
+main();
