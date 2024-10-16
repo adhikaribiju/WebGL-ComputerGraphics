@@ -51,6 +51,15 @@ function createside(a,b,c,d){
     }
 }
 
+function render(){
+    gl.drawArrays(gl.LINE_LOOP, 0,4);
+    gl.drawArrays(gl.LINE_LOOP, 12,4);
+    gl.drawArrays(gl.LINE_LOOP, 24,4);
+    gl.drawArrays(gl.LINE_LOOP, 36,4);
+    gl.drawArrays(gl.LINE_LOOP, 48,4);
+    gl.drawArrays(gl.LINE_LOOP, 60,4);
+
+}
 
 function main(){
     const canvas = document.getElementById('glcanvas');
@@ -72,27 +81,14 @@ function main(){
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
-    var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
-    gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(a_Position);
+    var coordinates = gl.getAttribLocation(gl.program, 'coordinates');
+    gl.vertexAttribPointer(coordinates, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(coordinates);
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     render();
-}
-
-
-function render(){
-
-    gl.clearColor(1.0, 1.0, 1.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // Drae each face of the cube using the Line loop
-    for(var i = 0; i<numsides; i++){
-        gl.drawArrays(gl.LINE_LOOP, i*4, 4);
-    }
-
 }
 
 main();
