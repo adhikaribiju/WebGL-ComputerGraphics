@@ -3,6 +3,8 @@ var numSides = 6; // we have 6 sides
 var vertices = [];
 var angleX = 0;
 var angleY = 0;
+var angleZ = 0;
+var currentAxis = 'x'; // Default
 
 var corners = [
     [-0.5, 0.5, 0.5], // 0 (front top left)
@@ -52,64 +54,98 @@ function createTransformationMatrix(angleX, angleY) {
     var sinX = Math.sin(angleX);
     var cosY = Math.cos(angleY);
     var sinY = Math.sin(angleY);
+    var sinZ = Math.sin(angleZ);
+    var cosZ = Math.cos(angleZ);
 
-    return new Float32Array([
-        cosY, 0, sinY, 0,
-        sinX * sinY, cosX, -sinX * cosY, 0,
-        -cosX * sinY, sinX, cosX * cosY, 0,
+
+
+
+    var rotateX = [
+        1, 0, 0, 0,
+        0, cosX, -sinX, 0,
+        0, sinX, cosX, 0,
         0, 0, 0, 1
-    ]);
+    ];
+
+    var rotateY = [
+        cosY, 0, sinY, 0,
+        0, 1, 0, 0,
+        -sinY, 0, cosY, 0,
+        0, 0, 0, 1
+    ];
+
+    var rotateZ = [
+        cosZ, -sinZ, 0, 0,
+        sinZ, cosZ, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    ];
+
+    // Apply the rotation based on the selected axis
+    if (currentAxis === 'x') {
+        return new Float32Array(rotateX);
+    } else if (currentAxis === 'y') {
+        return new Float32Array(rotateY);
+    } else {
+        return new Float32Array(rotateZ);
+    }
 }
+
+
+function multiplyMatrices(a, b) {
+    var result = [];
+    for (var i = 0; i < 4; i++) {
+        result[i] = [];
+        for (var j = 0; j < 4; j++) {
+            result[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j] + a[i][3] * b[3][j];
+        }
+    }
+    return result.flat();
+}
+
 
 function render() {
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-
     var colorLoc = gl.getUniformLocation(gl.program, "color");
 
-
-    var colorvec = [1.0, 0.0, 0.0, 1.0];
-
+    // Assign colors for each side
+    var colors = [
+        [1.0, 0.0, 0.0, 1.0],  // Red
+        [0.0, 1.0, 0.0, 1.0],  // Green 
+        [0.0, 0.0, 1.0, 1.0],  // Blue
+        [1.0, 1.0, 0.0, 1.0],  // Yellow 
+        [1.0, 0.0, 1.0, 1.0],  // Magenta 
+        [0.0, 1.0, 1.0, 1.0],  // Cyan
+    ];
 
     for (let i = 0; i < numSides; i++) {
-        if (i == 0) {
-            gl.drawArrays(gl.TRIANGLE_FAN, i * numVertex, numVertex);
-            gl.uniform4fv(colorLoc, colorvec);
-        }
-        else if (i == 1) {
-            colorvec= [1.0, 1.0, 0.0, 1.0];
-            gl.uniform4fv(colorLoc, colorvec);
-        }
-        else if  (i == 2){
-            colorvec = [0.0, 1.0, 0.0, 1.0];
-            gl.uniform4fv(colorLoc, colorvec);
-        }
-        else if (i == 3) {
-            colorvec = [0.0, 0.0, 1.0, 1.0];
-            gl.uniform4fv(colorLoc, colorvec);
-        }
-        else if (i == 4) {
-            colorvec = [1.0, 0.0, 1.0, 1.0];
-            gl.uniform4fv(colorLoc, colorvec);
-        }
-
-        gl.drawArrays(gl.LINE_LOOP, i * numVertex, numVertex);
+        gl.uniform4fv(colorLoc, colors[i]);  // Set color for each side
+        gl.drawArrays(gl.TRIANGLE_FAN, i * numVertex, numVertex);
     }
 }
 
 
-
 function animate() {
-    angleX += 0.01;
-    angleY += 0.01;
-
-    var transformationMatrix = createTransformationMatrix(angleX, angleY);
+    if (currentAxis === 'x') {
+        angleX += 0.01;
+    } else if (currentAxis === 'y') {
+        angleY += 0.01;
+    } else {
+        angleZ += 0.01;
+    }
+    var transformationMatrix = createTransformationMatrix(angleX, angleY, angleZ);
     var u_transformLoc = gl.getUniformLocation(gl.program, "u_transform");
     gl.uniformMatrix4fv(u_transformLoc, false, transformationMatrix);
 
     render();
     requestAnimationFrame(animate);
+}
+
+function updateRotationAxis() {
+    var select = document.getElementById("rotation-axis");
+    currentAxis = select.value;  // Update current axis based on the dropdown menu selection
 }
 
 function main() {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube 3d</title>
+</head>
+<body onload="main()">
+
+    <canvas id="webgl" width="300" height="300" style="border: 1px solid #000;"></canvas>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script type="text/javascript" src="Assignment7.js"></script>
+  </body>
+
+
+  <div>
+    <label for="rotation-axis">Choose Rotation Axis:</label>
+    <select id="rotation-axis" onchange="updateRotationAxis()">
+        <option value="x">X Rotation</option>
+        <option value="y">Y Rotation</option>
+        <option value="z">Z Rotation</option>
+    </select>
+</div>
+</html>
