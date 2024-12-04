@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube 3d</title>
+</head>
+<body onload="main()">
+        <canvas id="webgl" width="300" height="300" style="border: 1px solid #000;"></canvas>
+
+    <div>
+        <label for="color1">Choose first color:</label>
+        <select id="color1" onchange="changeColors()">
+            <option value="1">White</option>
+            <option value="2">Red</option>
+            <option value="3">Blue</option>
+            <option value="4">Pink</option>
+        </select>
+    </div>
+    <div>
+        <label for="color2">Choose second color:</label>
+        <select id="color2" onchange="changeColors()">
+            <option value="1">White</option>
+            <option value="2">Red</option>
+            <option value="3">Blue</option>
+            <option value="4">Pink</option>
+        </select>
+    </div>
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script type="text/javascript" src="ques2.js"></script>
+  </body>
+</html>

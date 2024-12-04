@@ -31,10 +31,9 @@ const VSHADER_SOURCE = `
     varying vec3 v_Color;
     uniform mat4 u_ModelMatrix;
     uniform mat4 u_ViewMatrix;
-    uniform mat4 u_ProjectionMatrix;
 
     void main() {
-        gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;
+        gl_Position =  u_ViewMatrix * u_ModelMatrix * a_Position;
         v_Color = a_Color;
     }
 `;
@@ -270,11 +269,6 @@ function main() {
     const viewMatrix = createIdentityMatrix();
     const projectionMatrix = createIdentityMatrix();
 
-    // Field of View
-    const fov = Math.PI / 4; // 45 degrees
-    const aspect = canvas.width / canvas.height;
-    const near = 0.1;
-    const far = 100;
     
 
     gl.uniformMatrix4fv(u_ViewMatrix, false, viewMatrix);
